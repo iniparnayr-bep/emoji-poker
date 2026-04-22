@@ -1,3 +1,119 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import url('https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,600;12..96,700;12..96,800&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --ink:          #0a0e13;
+  --ink-soft:     #11161d;
+  --ink-deep:     #06090d;
+  --panel:        #161c25;
+  --panel-raised: #1f2732;
+  --line:         #2b3442;
+  --cream:        #f5ecd7;
+  --cream-dim:    #c4bca9;
+  --muted:        #7a8294;
+  --lime:         #d4ff3a;
+  --lime-dim:     rgba(212,255,58,0.15);
+  --lime-glow:    rgba(212,255,58,0.5);
+  --coral:        #ff5a6b;
+  --coral-dim:    rgba(255,90,107,0.15);
+  --marigold:     #ffb547;
+  --ice:          #7be0ff;
+  --violet:       #b794ff;
+  --radius-sm:    6px;
+  --radius-md:    10px;
+  --radius-lg:    16px;
+  --radius-xl:    24px;
+  --shadow-sm:    0 1px 0 rgba(255,255,255,0.04) inset, 0 2px 8px rgba(0,0,0,0.4);
+  --shadow-md:    0 1px 0 rgba(255,255,255,0.05) inset, 0 8px 24px rgba(0,0,0,0.5);
+  --font-display: 'Bricolage Grotesque', 'Helvetica Neue', system-ui, sans-serif;
+  --font-mono:    'JetBrains Mono', 'Menlo', 'Consolas', monospace;
+}
+
+html, body {
+  min-height: 100vh;
+  height: 100dvh;
+  background: var(--ink);
+  color: var(--cream);
+  font-family: var(--font-display);
+  font-variation-settings: 'opsz' 24;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+/* Theme variants */
+.default { --lime: #d4ff3a; --lime-dim: rgba(212,255,58,0.15); --lime-glow: rgba(212,255,58,0.5); }
+.blue    { --lime: #7be0ff; --lime-dim: rgba(123,224,255,0.15); --lime-glow: rgba(123,224,255,0.5); }
+.purple  { --lime: #b794ff; --lime-dim: rgba(183,148,255,0.15); --lime-glow: rgba(183,148,255,0.5); }
+.green   { --lime: #7dd87d; --lime-dim: rgba(125,216,125,0.15); --lime-glow: rgba(125,216,125,0.5); }
+.red     { --lime: #ff7d8a; --lime-dim: rgba(255,125,138,0.15); --lime-glow: rgba(255,125,138,0.5); }
+.gray    { --lime: #c4bca9; --lime-dim: rgba(196,188,169,0.15); --lime-glow: rgba(196,188,169,0.5); }
+.dark    { --ink: #030608; --ink-soft: #0a0d13; --panel: #0e1319; --panel-raised: #161c25;
+           --lime: #6fe0a8; --lime-dim: rgba(111,224,168,0.15); --lime-glow: rgba(111,224,168,0.5); }
+
+body::before {
+  content: '';
+  position: fixed; inset: 0;
+  background-image:
+    radial-gradient(circle at 20% 0%, rgba(212,255,58,0.06), transparent 40%),
+    radial-gradient(circle at 80% 100%, rgba(255,90,107,0.05), transparent 45%);
+  z-index: -2; pointer-events: none;
+}
+body::after {
+  content: '';
+  position: fixed; inset: 0;
+  background-image: radial-gradient(circle, rgba(255,255,255,0.04) 1px, transparent 1px);
+  background-size: 24px 24px;
+  mask-image: radial-gradient(ellipse at center, black 30%, transparent 70%);
+  z-index: -1; pointer-events: none;
+}
+
+::selection { background: var(--lime); color: var(--ink); }
+
+h1,h2,h3 { font-family: var(--font-display); font-weight: 700; letter-spacing: -0.02em; }
+.mono { font-family: var(--font-mono); }
+.label-xs {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--muted);
+  font-weight: 500;
+}
+
+/* Shake animation */
+@keyframes shake {
+  0%,100% { transform: translate(1px,1px) rotate(0); }
+  20%     { transform: translate(-4px,0) rotate(3deg); }
+  40%     { transform: translate(4px,3px) rotate(-1deg); }
+  60%     { transform: translate(-3px,1px) rotate(0); }
+  80%     { transform: translate(-1px,-1px) rotate(2deg); }
+}
+.shake { animation: shake .55s infinite; }
+
+/* Emoji rain */
+.emoji-rain-layer { position: fixed; inset: 0; pointer-events: none; z-index: 9999; overflow: hidden; }
+.emoji-rain-drop {
+  position: absolute; top: -3rem; font-size: 2rem;
+  animation: emoji-rain-fall linear forwards;
+  filter: drop-shadow(0 4px 8px rgba(0,0,0,0.4));
+}
+@keyframes emoji-rain-fall {
+  0%   { transform: translateY(-10vh) rotate(0deg); opacity: 0; }
+  10%  { opacity: 1; }
+  90%  { opacity: 1; }
+  100% { transform: translateY(110vh) rotate(720deg); opacity: 0; }
+}
+
+/* Pro badge */
+.pro-badge {
+  display: inline-flex; align-items: center; gap: 0.3rem;
+  padding: 2px 8px;
+  background: linear-gradient(105deg, var(--lime), var(--ice));
+  color: var(--ink);
+  border-radius: 999px;
+  font-size: 0.65rem;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}

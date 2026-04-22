@@ -2,6 +2,8 @@
 
 use Illuminate\Support\Facades\Broadcast;
 
-Broadcast::channel('App.Models.User.{id}', function ($user, $id) {
-    return (int) $user->id === (int) $id;
+// Public channel for a poker session (all clients can join to receive events)
+// We use a public channel because players authenticate via their playerToken, not Laravel auth
+Broadcast::channel('session.{token}', function () {
+    return true; // open to all
 });
